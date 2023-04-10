@@ -16,8 +16,46 @@ CMyGame::~CMyGame(void)
 
 void CMyGame::OnUpdate()
 {
+	Uint32 delta_time = GetDeltaTime();
+	CVector max_velocity = { 10, 10 };
+	CVector min_velocity = { 0,0 };
+	CVector currant_velocity = m_pCar->GetVelocity();
+
+
+	if (IsKeyDown(SDLK_UP))
+	{
+		if (max_velocity - currant_velocity != min_velocity)
+		{
+			m_pCar->SetVelocity(currant_velocity + CVector(0,(0.2 * delta_time)));
+		}
+	}
+	if (IsKeyDown(SDLK_RIGHT))
+	{
+		m_pCar->Rotate(0.1 * delta_time);
+		double car_rotation = m_pCar->GetRotation();
+
+		m_pCar->SetDirection(car_rotation);
+	}
+	if (IsKeyDown(SDLK_LEFT))
+	{
+		m_pCar->Rotate(-0.1 * delta_time);
+		double car_rotation = m_pCar->GetRotation();
+
+		m_pCar->SetDirection(car_rotation);
+	}
+	if (IsKeyDown(SDLK_SPACE))
+	{
+		if (currant_velocity != min_velocity)
+		{
+			m_pCar->SetVelocity(currant_velocity - CVector(0, (0.1 * delta_time)));
+		}
+		if (currant_velocity == min_velocity)
+		{
+			m_pCar->SetVelocity(0, 0);
+		}
+	}
+
 	if (m_pCar) m_pCar->Update(GetTime());
-	CVector cvelocity = m_pCar->GetVelocity();
 }
 
 void CMyGame::OnDraw(CGraphics* g)
@@ -69,15 +107,30 @@ void CMyGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 	// Steer the car
 	if (!m_pCar) return;
 	if (sym == SDLK_RIGHT)
+	{
 		m_pCar->Turn(1);
+	}
+	
 	if (sym == SDLK_LEFT)
+	{
 		m_pCar->Turn(-1);
+	}
+		
 	if (sym == SDLK_UP)
+	{
 		m_pCar->SetGear(1);
+	}
+
 	if (sym == SDLK_DOWN)
+	{
 		m_pCar->SetGear(-1);
+	}
+		
 	if (sym == SDLK_SPACE)
+	{
 		m_pCar->SetBrake(true);
+	}
+		
 }
 
 void CMyGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode)
