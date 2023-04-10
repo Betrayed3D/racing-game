@@ -17,7 +17,10 @@ CMyGame::~CMyGame(void)
 void CMyGame::OnUpdate()
 {
 	if (m_pCar) m_pCar->Update(GetTime());
-	CVector cvelocity = m_pCar->GetVelocity();
+	CVector cvelocity = m_pCar->GetVelocity(); 
+
+	//car movement states
+
 }
 
 void CMyGame::OnDraw(CGraphics* g)

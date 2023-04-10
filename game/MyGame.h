@@ -5,6 +5,9 @@
 class CMyGame : public CGame
 {
 	CSpriteCar *m_pCar;
+
+private:
+	enum car_state { DRIVING, STOPPED, REVERSING } m_car_state;
 public:
 	CMyGame(void);
 	~CMyGame(void);
